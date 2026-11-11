@@ -1,0 +1,54 @@
+# Simulated navigation equipment. Every sender binds to its own source IP.
+# Several senders may share an IP (gnss1 and gyro1 both use 192.168.1.10), so
+# logical equipment identity is carried by the NMEA talker ID and the logs.
+
+# All senders share one simulated vessel. Its motion is a closed-form function
+# of time, so separate processes agree without sharing state.
+[vessel]
+center_lat = 50.9662
+center_lon = 1.7685
+stw_kn = 10.0
+current_kn = 0.3
+turn_rate_deg_min = 3.0
+heading0_deg = 0.0
+variation_deg = 2.0
+
+[senders.gnss1]
+description = "GNSS 1: position and time"
+equipment = "gnss"
+talker = "GP"
+source_ip = "192.168.1.10"
+group = "position"
+interval = 1.0
+kinds = ["GGA", "RMC", "VTG", "GLL", "ZDA"]
+seed = 11
+
+[senders.gnss2]
+description = "GNSS 2: position and time"
+equipment = "gnss"
+talker = "GN"
+source_ip = "192.168.1.11"
+group = "position"
+interval = 1.0
+kinds = ["GGA", "RMC", "VTG", "GLL", "ZDA"]
+seed = 12
+
+[senders.gyro1]
+description = "Gyrocompass: heading"
+equipment = "gyro"
+talker = "HE"
+source_ip = "192.168.1.10"
+group = "heading"
+interval = 0.5
+kinds = ["HDT", "HDG", "ROT"]
+seed = 2
+
+[senders.log1]
+description = "Speed log: speed and distance"
+equipment = "log"
+talker = "VW"
+source_ip = "192.168.1.11"
+group = "speed"
+interval = 1.0
+kinds = ["VHW", "VBW"]
+seed = 3
